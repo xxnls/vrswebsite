@@ -2,57 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\VehicleApiService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Http;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-use Illuminate\Support\Facades\Log;
 
-class VehicleController extends Controller
+class VehicleController extends BaseApiController
 {
-    public function getVehicles()
+    public function __construct(VehicleApiService $service)
     {
-        $url = 'https://localhost:7230/api/Vehicles';
-        $queryParams = [
-            'page' => request('page', 1),
-            'pageSize' => request('pageSize', 11),
-        ];
-
-        // Include the JWT token in the request headers
-        $response = Http::withoutVerifying()
-            ->withHeaders([
-                'Authorization' => 'Bearer ' . $this->getJwtToken(),
-            ])
-            ->get($url, $queryParams);
-
-            // Log the API response
-            //Log::info('API Response:', $response->json());
-
-        if ($response->successful()) {
-            $vehicles = $response->json();
-            return view('vehicles', ['vehicles' => $vehicles]);
-        } else {
-            return view('vehicles', ['error' => 'Failed to fetch data from the API']);
-        }
+        $this->service = $service;
     }
 
-    private function getJwtToken()
+    /**
+     * Display a listing of the vehicles.
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function index(Request $request)
     {
-        // Retrieve JWT configuration
-        $key = config('services.jwt.key');
-        $issuer = config('services.jwt.issuer');
-        $audience = config('services.jwt.audience');
+        $page = $request->query('page', 1); // Default to page 1
+        $pageSize = $request->query('pageSize', 10); // Default to 10 items per page
 
-        // Create the token payload
-        $payload = [
-            'iss' => $issuer, // Issuer
-            'aud' => $audience, // Audience
-            'iat' => time(), // Issued at
-            'exp' => time() + 3600, // Expiration time (1 hour)
-        ];
+        // Fetch data from the API
+        $data = $this->service->getAllVehicles($this->getEndpoint(), $page, $pageSize);
 
-        // Generate the JWT token
-        return JWT::encode($payload, $key, 'HS256');
+        if ($data === null) {
+            // If data fetching fails, return an error view or redirect
+            return view('vehicles/index', ['error' => 'Failed to fetch vehicles from the API.']);
+        }
+
+        // Pass the data to the view
+        return view('vehicles/index', ['vehicles' => $data]);
+    }
+
+    /**
+     * Get the endpoint for vehicle API requests.
+     *
+     * @return string
+     */
+    protected function getEndpoint(): string
+    {
+        return 'Vehicles';
     }
 }
