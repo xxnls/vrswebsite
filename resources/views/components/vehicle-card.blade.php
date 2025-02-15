@@ -4,7 +4,7 @@
 <div class="max-w-sm rounded-xl overflow-hidden shadow-2xl bg-white dark:bg-gray-900 transition-all hover:shadow-3xl transform hover:scale-105 relative
   {{ !$vehicle['isAvailableForRent'] ? 'blur-lg' : '' }}">
   <!-- Image Section -->
-  <img src="{{ $vehicle['vehicleModel']['vehicleBrand']['website'] }}" alt="Vehicle Image" class="w-full h-56 object-cover rounded-t-xl">
+  <img src="{{ $vehicle['vehicleModel']['imageUrl'] }}" alt="Vehicle Image" class="w-full h-56 object-cover rounded-t-xl">
 
   <!-- Overlay for Not Available -->
   @if(!$vehicle['isAvailableForRent'])

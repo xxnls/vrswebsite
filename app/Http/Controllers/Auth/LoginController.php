@@ -59,6 +59,25 @@ class LoginController extends Controller
     }
 
     /**
+     * Log the user in after registration.
+     *
+     * @param string $email
+     * @param string $password
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function loginUserAfterRegistration($email, $password)
+    {
+        $request = new Request();
+        $request->replace([
+            'email' => $email,
+            'password' => $password,
+        ]);
+
+        // Call the existing login method
+        return $this->login($request);
+    }
+
+    /**
      * Log the user out.
      *
      * @return \Illuminate\Http\RedirectResponse
