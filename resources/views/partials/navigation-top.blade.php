@@ -9,10 +9,25 @@
             </div>
 
             <!-- Navigation Links (Desktop) -->
-            <div class="hidden md:flex space-x-4">
+            <div class="hidden md:flex space-x-4 items-center">
                 <a href="/vehicles" class="text-gray-800 hover:text-blue-500 transition duration-300">Vehicles</a>
                 <a href="/about" class="text-gray-800 hover:text-blue-500 transition duration-300">About</a>
                 <a href="/contact" class="text-gray-800 hover:text-blue-500 transition duration-300">Contact</a>
+
+                <!-- Show Login/Register buttons only if the user is NOT logged in -->
+                @unless(Session::has('token'))
+                    <a href="/login" class="text-gray-800 hover:text-blue-500 transition duration-300">Login</a>
+                    <a href="/register" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">Register</a>
+                @endunless
+
+                <!-- Show Logout button and user info if the user is logged in -->
+                @if(Session::has('token'))
+                    <span class="text-gray-800">{{ Session::get('customer')['firstName'] ?? '' }} {{ Session::get('customer')['lastName'] ?? '' }}</span>
+                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="text-gray-800 hover:text-blue-500 transition duration-300">Logout</button>
+                    </form>
+                @endif
             </div>
 
             <!-- Mobile Menu Button -->
@@ -31,6 +46,21 @@
             <a href="/vehicles" class="block py-3 px-4 text-gray-800 hover:bg-blue-50 hover:text-blue-500 transition duration-300">Vehicles</a>
             <a href="/about" class="block py-3 px-4 text-gray-800 hover:bg-blue-50 hover:text-blue-500 transition duration-300">About</a>
             <a href="/contact" class="block py-3 px-4 text-gray-800 hover:bg-blue-50 hover:text-blue-500 transition duration-300">Contact</a>
+
+            <!-- Show Login/Register buttons only if the user is NOT logged in -->
+            @unless(Session::has('token'))
+                <a href="/login" class="block py-3 px-4 text-gray-800 hover:bg-blue-50 hover:text-blue-500 transition duration-300">Login</a>
+                <a href="/register" class="block py-3 px-4 text-gray-800 hover:bg-blue-50 hover:text-blue-500 transition duration-300">Register</a>
+            @endunless
+
+            <!-- Show Logout button and user info if the user is logged in -->
+            @if(Session::has('token'))
+                <span class="block py-3 px-4 text-gray-800">{{ Session::get('customer')['firstName'] ?? '' }} {{ Session::get('customer')['lastName'] ?? '' }}</span>
+                <form action="{{ route('logout') }}" method="POST" class="block">
+                    @csrf
+                    <button type="submit" class="w-full text-left py-3 px-4 text-gray-800 hover:bg-blue-50 hover:text-blue-500 transition duration-300">Logout</button>
+                </form>
+            @endif
         </div>
     </div>
 </nav>

@@ -11,8 +11,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Register route middleware (alias)
+        $middleware->alias([
+            'auth.token' => \App\Http\Middleware\EnsureTokenIsValid::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        // Exception handling configuration goes here
     })->create();

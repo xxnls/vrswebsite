@@ -9,40 +9,52 @@ abstract class BaseApiController extends Controller
     protected $service;
 
     /**
-     * Get all records with pagination.
+     * Get all records.
      *
      * @param Request $request
-     * @return array|null
+     * @return \Illuminate\View\View|array|null
      */
-    // public function index(Request $request): ?array
-    // {
-    //     $page = $request->query('page', 1); // Default to page 1
-    //     $pageSize = $request->query('pageSize', 10); // Default to 10 items per page
+    public function index(Request $request)
+    {
+        $page = $request->query('page', 1); // Default to page 1
+        $pageSize = $request->query('pageSize', 10); // Default to 10 items per page
 
-    //     $data = $this->service->getAllVehicles($this->getEndpoint(), $page, $pageSize);
+        // Fetch data from the service
+        $data = $this->service->getAll($this->getEndpoint(), $page, $pageSize);
 
-    //     if ($data === null) {
-    //         return ['error' => 'Failed to fetch data'];
-    //     }
+        if ($data === null) {
+            return ['error' => 'Failed to fetch data'];
+        }
 
-    //     return $data;
-    // }
+        // Return a view if the request expects HTML
+        if ($request->wantsJson()) {
+            return $data;
+        }
+
+        return view('vehicles.index', ['vehicles' => $data]);
+    }
 
     /**
      * Get a specific record by ID.
      *
      * @param int $id
-     * @return array|null
+     * @return \Illuminate\View\View|array|null
      */
-    public function show(int $id): ?array
+    public function show(int $id)
     {
-        $data = $this->service->getVehicleById($this->getEndpoint(), $id);
+        // Fetch data from the service
+        $data = $this->service->getById($this->getEndpoint(), $id);
 
         if ($data === null) {
             return ['error' => 'Record not found'];
         }
 
-        return $data;
+        // Return a view if the request expects HTML
+        if (request()->wantsJson()) {
+            return $data;
+        }
+
+        return view('vehicles.show', ['vehicle' => $data]);
     }
 
     /**
