@@ -89,6 +89,6 @@ class LoginController extends Controller
         Session::flush();
 
         // Redirect to the login page
-        return redirect()->route('login')->with('success', 'You have been logged out.');
+        return redirect()->route('home')->with('success', 'You have been logged out.');
     }
 }

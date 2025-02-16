@@ -33,7 +33,7 @@
                                 @if(Session::has('token'))
                                     <a href="{{ route('rental-requests.create', ['vehicleId' => $vehicle['vehicleId']]) }}"
                                         class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 shadow-md">
-                                        Rent Now
+                                        Create Rental Request
                                     </a>
                                 @else
                                     <a href="{{ route('login') }}"
