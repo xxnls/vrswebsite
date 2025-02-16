@@ -31,7 +31,7 @@
                         <div class="flex items-center justify-end mx-4">
                             @if($vehicle['isAvailableForRent'])
                                 @if(Session::has('token'))
-                                    <a href=""
+                                    <a href="{{ route('rental-requests.create', ['vehicleId' => $vehicle['vehicleId']]) }}"
                                         class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 shadow-md">
                                         Rent Now
                                     </a>
@@ -137,7 +137,7 @@
                     </div>
                 @endif
             </div>
-            {{-- {{ route('rentals.create', ['vehicleId' => $vehicle['id']]) }} --}}
+            {{-- {{ route('rental-requests.create', ['vehicleId' => $vehicle['id']]) }} --}}
         </div>
     </div>
 @endsection

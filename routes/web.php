@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\RentalRequestController;
 
 Route::get('/', function () {
     return view('index');
@@ -12,6 +13,10 @@ Route::get('/', function () {
 // Vehicle Routes
 Route::get('/vehicles', [VehicleController::class, 'index'])->name('vehicles');
 Route::get('/vehicles/{id}', [VehicleController::class, 'show'])->name('vehicles.show');
+
+// Rental Request Routes
+Route::get('/vehicles/{vehicleId}/rental-request', [RentalRequestController::class, 'create'])->name('rental-request.create');
+Route::post('/rental-requests', [RentalRequestController::class, 'store'])->name('rental-request.store');
 
 // Login Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
