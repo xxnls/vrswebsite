@@ -10,13 +10,12 @@
 
             <!-- Navigation Links (Desktop) -->
             <div class="hidden md:flex space-x-4 items-center mr-4">
-                <a href="/vehicles" class="text-gray-800 hover:text-blue-500 transition duration-300">Vehicles</a>
-                <a href="/about" class="text-gray-800 hover:text-blue-500 transition duration-300">About</a>
-                <a href="/contact" class="text-gray-800 hover:text-blue-500 transition duration-300">Contact</a>
+                {{-- <a href="/vehicles" class="text-gray-800 hover:text-blue-500 transition duration-300">Vehicles</a> --}}
+                <a href="/contact" class="mt-2 text-white transition duration-300 bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Contact</a>
                 <!-- Show Login/Register buttons only if the user is NOT logged in -->
                 @unless(Session::has('token'))
-                    <a href="/login" class="text-gray-800 hover:text-blue-500 transition duration-300">Login</a>
-                    <a href="/register" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">Register</a>
+                    <a href="/login" class="mt-2 text-white transition duration-300 bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Login</a>
+                    <a href="/register" class="mt-2 text-white transition duration-300 bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Register</a>
                 @endunless
                 <!-- Show Logout button and user info if the user is logged in -->
                 @if(Session::has('token'))
@@ -25,14 +24,14 @@
                         {{ Session::get('customer')['firstName'] ?? '' }} {{ Session::get('customer')['lastName'] ?? '' }}
                     </button>
                 </a>
-                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                    {{-- <form action="{{ route('logout') }}" method="POST" class="inline">
                         @csrf
                         <button type="submit" style="margin-top: 2px;" class="text-white transition duration-300 bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-2 py-2 text-center me-2 mb-1">
                             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H8m12 0-4 4m4-4-4-4M9 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h2"/>
                             </svg>
                         </button>
-                    </form>
+                    </form> --}}
                 @endif
             </div>
 

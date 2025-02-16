@@ -90,14 +90,12 @@ class RentalRequestController extends BaseApiController
     public function indexCustomerRequests()
     {
         $token = Session::get('token');
-        Log::info('Session Token:', ['token' => $token]);
 
         if (!$token) {
             return redirect()->route('login')->withErrors(['error' => 'You must be logged in to view rental requests.']);
         }
 
         $customerId = Session::get('customer.id');
-        Log::info('Customer ID:', ['customerId' => $customerId]);
 
         // Fetch rental requests for the logged-in user
         $response = $this->service->getUserRentalRequests($customerId);
@@ -105,8 +103,6 @@ class RentalRequestController extends BaseApiController
             $rentalRequests = $response['data']['items'];
             return view('rental-requests.index', compact('rentalRequests'));
         }
-
-        Log::info('Failed to fetch rental requests:', ['response' => $response]);
 
         return back()->withErrors(['error' => 'Failed to fetch rental requests. Please try again.']);
     }

@@ -1,18 +1,18 @@
 @extends('layouts.app')
-
 @section('title', 'My Rental Requests')
-
 @section('content')
 <div class="max-w-6xl mx-auto mt-10 bg-white dark:bg-gray-900 rounded-xl shadow-2xl overflow-hidden p-8">
     <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">My Rental Requests</h1>
-
     @if (!$rentalRequests)
         <p class="text-gray-700 dark:text-gray-300">You have not made any rental requests yet.</p>
     @else
         <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700" style="border-spacing: 0 10px; border-collapse: separate;">
                 <thead class="bg-gray-50 dark:bg-gray-800">
                     <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                            Image
+                        </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                             Vehicle
                         </th>
@@ -38,9 +38,16 @@
                 </thead>
                 <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
                     @foreach ($rentalRequests as $request)
-                        <tr>
+                        <tr class="transition-all hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg overflow-hidden" style="margin-bottom: 10px;">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white"
+                                style="background-image: url('{{ $request['vehicle']['vehicleModel']['imageUrl'] }}');
+                                       background-size: cover;
+                                       background-position: center center;
+                                       width: 100px;
+                                       border-radius: 15px;">
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                                {{ $request['vehicle']['vehicleModel']['name'] ?? 'N/A' }}
+                                {{ $request['vehicle']['vehicleModel']['vehicleBrand']['name'] }} {{ $request['vehicle']['vehicleModel']['name'] ?? 'N/A' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                                 {{ \Carbon\Carbon::parse($request['requestDate'])->format('d-m-Y') }}

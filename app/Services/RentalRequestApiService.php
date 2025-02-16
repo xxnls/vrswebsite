@@ -23,8 +23,6 @@ class RentalRequestApiService extends BaseApiService
     {
         $http = Http::withoutVerifying();
 
-        Log::info("Endpoint: {$this->baseUri}RentalRequests/customer/{$id}");
-
         $response = $http->get("{$this->baseUri}RentalRequests/customer/{$id}");
 
         if ($response->successful()) {

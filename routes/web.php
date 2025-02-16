@@ -17,10 +17,12 @@ Route::get('/vehicles/{id}', [VehicleController::class, 'show'])->name('vehicles
 // Rental Request Routes
 Route::get('/vehicles/{vehicleId}/rental-request', [RentalRequestController::class, 'create'])->name('rental-requests.create');
 Route::post('/rental-requests', [RentalRequestController::class, 'store'])->name('rental-requests.store');
-// Route::middleware('auth.token')->group(function () {
-//     Route::get('/rental-requests', [RentalRequestController::class, 'indexCustomerRequests'])->name('rental-requests.index');
-// });
-Route::get('/rental-requests', [RentalRequestController::class, 'indexCustomerRequests'])->name('rental-requests.index');
+Route::middleware('auth.token')->group(function () {
+    Route::get('/rental-requests', [RentalRequestController::class, 'indexCustomerRequests'])->name('rental-requests.index');
+});
+
+// Rentals Routes
+Route::get('/rentals', [RentalRequestController::class, 'indexCustomerRentals'])->name('rentals.index');
 
 // Login Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
