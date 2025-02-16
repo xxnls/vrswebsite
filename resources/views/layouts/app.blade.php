@@ -17,7 +17,7 @@
     @include('partials.navigation-top')
 
     <!-- Main Content -->
-    <main class="container mx-auto p-4 flex-grow">
+    <main class="container mx-auto flex-grow">
         @yield('content')
     </main>
 
