@@ -5,10 +5,15 @@ use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\RentalRequestController;
+use App\Http\Controllers\RentalController;
+use App\Http\Controllers\RentalPlaceController;
 
 Route::get('/', function () {
     return view('index');
 })->name('home');
+
+// Contact Route
+Route::get('/contact', [RentalPlaceController::class, 'index'])->name('contact');
 
 // Vehicle Routes
 Route::get('/vehicles', [VehicleController::class, 'index'])->name('vehicles');
@@ -22,7 +27,7 @@ Route::middleware('auth.token')->group(function () {
 });
 
 // Rentals Routes
-Route::get('/rentals', [RentalRequestController::class, 'indexCustomerRentals'])->name('rentals.index');
+Route::get('/rentals', [RentalController::class, 'indexCustomerRentals'])->name('rentals.index');
 
 // Login Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -34,12 +39,6 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 // Logout Route
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
-// Contact Route
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
-
 
 // Dashboard Route
 Route::middleware('auth.token')->group(function () {

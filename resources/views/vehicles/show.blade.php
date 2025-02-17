@@ -134,10 +134,10 @@
                         <p class="text-sm text-gray-600 dark:text-gray-300">
                             {{ $vehicle['vehicleModel']['description'] }}
                         </p>
+                        {{-- <p>Rental Place: {{ $vehicle['rentalPlace']['address']['city'] }}</p> --}}
                     </div>
                 @endif
             </div>
-            {{-- {{ route('rental-requests.create', ['vehicleId' => $vehicle['id']]) }} --}}
         </div>
     </div>
 @endsection

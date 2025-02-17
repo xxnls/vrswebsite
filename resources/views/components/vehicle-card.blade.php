@@ -47,6 +47,8 @@
       <li><strong>Fuel Type:</strong> {{ $vehicle['vehicleModel']['fuelType'] }}</li>
       <li><strong>Mileage:</strong> {{ number_format($vehicle['currentMileage']) }} km</li>
       <li><strong>Horsepower:</strong> {{ $vehicle['vehicleModel']['horsePower'] }} HP</li>
+
+      <li><strong>Rental Place: </strong>{{ $vehicle['rentalPlace']['address']['city'] }}</li>
     </ul>
   </div>
 </div>

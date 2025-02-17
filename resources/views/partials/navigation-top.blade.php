@@ -10,7 +10,7 @@
 
             <!-- Navigation Links (Desktop) -->
             <div class="hidden md:flex space-x-4 items-center mr-4">
-                {{-- <a href="/vehicles" class="text-gray-800 hover:text-blue-500 transition duration-300">Vehicles</a> --}}
+                <a href="/vehicles" class="mt-2 text-white transition duration-300 bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Rentals</a>
                 <a href="/contact" class="mt-2 text-white transition duration-300 bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Contact</a>
                 <!-- Show Login/Register buttons only if the user is NOT logged in -->
                 @unless(Session::has('token'))
@@ -48,8 +48,7 @@
 
         <!-- Navigation Links (Mobile) -->
         <div class="hidden md:hidden bg-white shadow-lg rounded-lg mt-0 mb-0" id="mobile-menu"> <!-- Remove margin -->
-            <a href="/vehicles" class="block py-3 px-4 text-gray-800 hover:bg-blue-50 hover:text-blue-500 transition duration-300">Vehicles</a>
-            <a href="/about" class="block py-3 px-4 text-gray-800 hover:bg-blue-50 hover:text-blue-500 transition duration-300">About</a>
+            <a href="/vehicles" class="block py-3 px-4 text-gray-800 hover:bg-blue-50 hover:text-blue-500 transition duration-300">Rentals</a>
             <a href="/contact" class="block py-3 px-4 text-gray-800 hover:bg-blue-50 hover:text-blue-500 transition duration-300">Contact</a>
 
             <!-- Show Login/Register buttons only if the user is NOT logged in -->
@@ -60,7 +59,7 @@
 
             <!-- Show Logout button and user info if the user is logged in -->
             @if(Session::has('token'))
-                <span class="block py-3 px-4 text-gray-800">{{ Session::get('customer')['firstName'] ?? '' }} {{ Session::get('customer')['lastName'] ?? '' }}</span>
+                <a href="/dashboard" class="block py-3 px-4 text-gray-800 hover:bg-blue-50 hover:text-blue-500 transition duration-300">{{ Session::get('customer')['firstName'] ?? '' }} {{ Session::get('customer')['lastName'] ?? '' }}</a>
                 <form action="{{ route('logout') }}" method="POST" class="block">
                     @csrf
                     <button type="submit" class="w-full text-left py-3 px-4 text-gray-800 hover:bg-blue-50 hover:text-blue-500 transition duration-300">Logout</button>
