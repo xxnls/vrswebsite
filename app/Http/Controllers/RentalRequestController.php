@@ -39,6 +39,29 @@ class RentalRequestController extends BaseApiController
         // Get customer details from the session
         $customer = Session::get('customer', []);
 
+        // Check if the customer has the required license
+        $requiredLicenseType = $vehicle['vehicleType']['requiredLicenseType'];
+        $hasApprovedLicense = false;
+
+        if ($customer) {
+            switch ($requiredLicenseType) {
+                case 'A':
+                    $hasApprovedLicense = $customer['approvedA'] ?? false;
+                    break;
+                case 'B':
+                    $hasApprovedLicense = $customer['approvedB'] ?? false;
+                    break;
+                case 'C':
+                    $hasApprovedLicense = $customer['approvedC'] ?? false;
+                    break;
+            }
+        }
+
+        // If the customer doesn't have the required license, block access
+        if (!$hasApprovedLicense) {
+            return redirect()->back()->with('error', 'You need an approved ' . $requiredLicenseType . ' license to rent this vehicle.');
+        }
+
         // Pass the vehicle and customer data to the view
         return view('rental-requests.create', compact('vehicle', 'customer'));
     }
@@ -64,6 +87,29 @@ class RentalRequestController extends BaseApiController
         $vehicle = $this->service->getById('Vehicles', $request['vehicle']['vehicleId']);
         if (!$vehicle) {
             return ['success' => false, 'message' => 'Vehicle not found.'];
+        }
+
+        // Check if the customer has the required license
+        $requiredLicenseType = $vehicle['vehicleType']['requiredLicenseType'];
+        $hasApprovedLicense = false;
+
+        if ($customer) {
+            switch ($requiredLicenseType) {
+                case 'A':
+                    $hasApprovedLicense = $customer['approvedA'] ?? false;
+                    break;
+                case 'B':
+                    $hasApprovedLicense = $customer['approvedB'] ?? false;
+                    break;
+                case 'C':
+                    $hasApprovedLicense = $customer['approvedC'] ?? false;
+                    break;
+            }
+        }
+
+        // If the customer doesn't have the required license, block access
+        if (!$hasApprovedLicense) {
+            return redirect()->back()->with('error', 'You need an approved ' . $requiredLicenseType . ' license to rent this vehicle.');
         }
 
         // Merge customer and vehicle data into the request payload

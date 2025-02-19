@@ -21,7 +21,6 @@
             <div class="flex flex-col md:flex-row gap-6 mb-8">
                 <!-- Left Column: Brand, Model, and Price -->
                 <div class="flex-1">
-
                     <div class="flex items-center mb-4">
                         <h1 class="text-4xl font-bold text-gray-900 dark:text-white flex-1">
                             {{ $vehicle['vehicleModel']['vehicleBrand']['name'] }} {{ $vehicle['vehicleModel']['name'] }}
@@ -31,10 +30,40 @@
                         <div class="flex items-center justify-end mx-4">
                             @if($vehicle['isAvailableForRent'])
                                 @if(Session::has('token'))
-                                    <a href="{{ route('rental-requests.create', ['vehicleId' => $vehicle['vehicleId']]) }}"
-                                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 shadow-md">
-                                        Create Rental Request
-                                    </a>
+                                    @php
+                                        // Retrieve customer data from the session
+                                        $customer = Session::get('customer');
+                                        $requiredLicenseType = $vehicle['vehicleType']['requiredLicenseType'];
+                                        $hasApprovedLicense = false;
+
+                                        // Check if the customer has the required license
+                                        if ($customer) {
+                                            switch ($requiredLicenseType) {
+                                                case 'A':
+                                                    $hasApprovedLicense = $customer['approvedA'] ?? false;
+                                                    break;
+                                                case 'B':
+                                                    $hasApprovedLicense = $customer['approvedB'] ?? false;
+                                                    break;
+                                                case 'C':
+                                                    $hasApprovedLicense = $customer['approvedC'] ?? false;
+                                                    break;
+                                            }
+                                        }
+                                    @endphp
+
+                                    @if($hasApprovedLicense)
+                                        <a href="{{ route('rental-requests.create', ['vehicleId' => $vehicle['vehicleId']]) }}"
+                                            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 shadow-md">
+                                            Create Rental Request
+                                        </a>
+                                    @else
+                                        <button disabled
+                                            class="bg-gray-500 text-white font-bold py-3 px-6 rounded-full cursor-not-allowed"
+                                            title="You need an approved {{ $requiredLicenseType }} license to rent this vehicle.">
+                                            License Required
+                                        </button>
+                                    @endif
                                 @else
                                     <a href="{{ route('login') }}"
                                         class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 shadow-md">
@@ -59,7 +88,6 @@
                         ${{ number_format($vehicle['customDailyRate'], 2) }}
                         <span class="text-base font-normal italic">/ day</span>
                     </p>
-
                 </div>
             </div>
 
@@ -134,7 +162,6 @@
                         <p class="text-sm text-gray-600 dark:text-gray-300">
                             {{ $vehicle['vehicleModel']['description'] }}
                         </p>
-                        {{-- <p>Rental Place: {{ $vehicle['rentalPlace']['address']['city'] }}</p> --}}
                     </div>
                 @endif
             </div>

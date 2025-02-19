@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -90,5 +91,20 @@ class LoginController extends Controller
 
         // Redirect to the login page
         return redirect()->route('home')->with('success', 'You have been logged out.');
+    }
+
+    public static function refreshUser()
+    {
+       // Disable SSL verification (for development only)
+       $http = Http::withoutVerifying();
+
+       $customerId = Session::get('customer')['id'];
+
+       // Send a POST request to the API endpoint
+       $response = $http->get('https://localhost:7230/api/Customers/}'.$customerId);
+
+       Log::info('Refresh User Response: ' . $response->json());
+
+       Session::put('customer', $response->json());
     }
 }

@@ -21,13 +21,15 @@ Route::get('/vehicles', [VehicleController::class, 'index'])->name('vehicles');
 Route::get('/vehicles/{id}', [VehicleController::class, 'show'])->name('vehicles.show');
 
 // License Routes
-Route::get('/upload-license', [LicenseController::class, 'showUploadForm'])->name('upload.form');
-Route::post('/upload-license', [LicenseController::class, 'uploadLicense'])->name('upload.license');
+Route::middleware('auth.token')->group(function () {
+    Route::get('/upload-license', [LicenseController::class, 'showUploadForm'])->name('upload.form');
+    Route::post('/upload-license', [LicenseController::class, 'uploadLicense'])->name('upload.license');
+});
 
 // Rental Request Routes
-Route::get('/vehicles/{vehicleId}/rental-request', [RentalRequestController::class, 'create'])->name('rental-requests.create');
-Route::post('/rental-requests', [RentalRequestController::class, 'store'])->name('rental-requests.store');
 Route::middleware('auth.token')->group(function () {
+    Route::get('/vehicles/{vehicleId}/rental-request', [RentalRequestController::class, 'create'])->name('rental-requests.create');
+    Route::post('/rental-requests', [RentalRequestController::class, 'store'])->name('rental-requests.store');
     Route::get('/rental-requests', [RentalRequestController::class, 'indexCustomerRequests'])->name('rental-requests.index');
 });
 
