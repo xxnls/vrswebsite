@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\RentalRequestController;
 use App\Http\Controllers\RentalController;
 use App\Http\Controllers\RentalPlaceController;
+use App\Http\Controllers\LicenseController;
 
 Route::get('/', function () {
     return view('index');
@@ -18,6 +19,10 @@ Route::get('/contact', [RentalPlaceController::class, 'index'])->name('contact')
 // Vehicle Routes
 Route::get('/vehicles', [VehicleController::class, 'index'])->name('vehicles');
 Route::get('/vehicles/{id}', [VehicleController::class, 'show'])->name('vehicles.show');
+
+// License Routes
+Route::get('/upload-license', [LicenseController::class, 'showUploadForm'])->name('upload.form');
+Route::post('/upload-license', [LicenseController::class, 'uploadLicense'])->name('upload.license');
 
 // Rental Request Routes
 Route::get('/vehicles/{vehicleId}/rental-request', [RentalRequestController::class, 'create'])->name('rental-requests.create');
